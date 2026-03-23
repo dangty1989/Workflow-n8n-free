@@ -1,0 +1,1423 @@
+{
+  "nodes": [
+    {
+      "parameters": {},
+      "id": "74979871-aa7f-439b-8862-eee4f2342515",
+      "name": "Manual Trigger",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -1696,
+        608
+      ]
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "YOUR_SPREADSHEET_ID",
+          "mode": "list",
+          "cachedResultName": "Video  A Tỵ _ Minh Triết",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1iGdzzSDO0nV_-bC6qqzSJm6xOrDgwlib4T6Wrj64_Fo/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 599470117,
+          "mode": "list",
+          "cachedResultName": "video short ",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1iGdzzSDO0nV_-bC6qqzSJm6xOrDgwlib4T6Wrj64_Fo/edit#gid=599470117"
+        },
+        "filtersUI": {
+          "values": [
+            {
+              "lookupColumn": "status",
+              "lookupValue": "PROCESSING"
+            }
+          ]
+        },
+        "options": {
+          "returnFirstMatch": true
+        }
+      },
+      "id": "60585606-84f1-440a-86ec-4b67e36147c4",
+      "name": "Get Sheet",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        -1472,
+        432
+      ],
+      "retryOnFail": true,
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "REPLACEME_CREDENTIAL_ID",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Tạo dàn ý video ngắn (TikTok/Shorts/Reels) dưới 80 giây với dữ liệu sau:\n\n- Khái niệm triết học: {{ $json.philosophical_concept }}\n- Nỗi đau chính: {{ $json.target_pain_point }}\n- Phong cách giọng điệu: {{ $json.voice_tone_style }}\n\nCẤU TRÚC BẮT BUỘC (3 phần):\n\nPHẦN 1 — HOOK (3–5 giây):\nĐánh thẳng vào nỗi đau hoặc đưa ra 1 phát ngôn làm người xem dừng lại ngay lập tức. Không giới thiệu dài dòng.\n\nPHẦN 2 — NỘI DUNG CHÍNH (35–45 giây):\n- Kể 1 câu chuyện ẩn dụ hoặc tình huống đời thực liên quan đến nỗi đau.\n- Giải thích triết lý {{ $json.philosophical_concept }} theo ngôn ngữ đời thường (không hàn lâm).\n- Đưa ra 1 hành động cụ thể, áp dụng được ngay (Actionable advice).\n\nPHẦN 3 — CTA (5 giây):\nKêu gọi lưu video, chia sẻ hoặc follow. Phải tự nhiên, không sáo rỗng.\n\nXuất ra dàn ý chi tiết từng phần. Không thêm lời giải thích ngoài lề.\n",
+        "options": {
+          "systemMessage": "=You are \"Minh Triết\" – Triết gia kể chuyện hiện đại.\n\nCHUYÊN MÔN: Chuyển hóa triết học Trung Hoa cổ đại (Đạo Đức Kinh, Nho Giáo, Phật Giáo Thiền Tông, Binh Pháp Tôn Tử) thành nội dung video ngắn có chiều sâu, dễ hiểu và ứng dụng được ngay vào đời sống, công việc thực tế.\n\nNGUYÊN TẮC NỘI DUNG:\n- Gần gũi mọi tầng lớp: Nông dân, sinh viên, doanh nhân đều hiểu được.\n- Có giá trị thực: Mỗi video phải giải quyết 1 nỗi đau thật của người xem.\n- Không gây hại não bộ: Không giật gân bẩn, không thông tin sai lệch, không kích động cảm xúc tiêu cực thuần túy.\n- Triết học là công cụ, không phải mục tiêu: Dùng triết lý để soi sáng vấn đề thực tế, không rao giảng hàn lâm.\n\nPHONG CÁCH NGÔN NGỮ:\n- Nói chuyện như người anh cả kinh nghiệm đang rỉ tai đàn em — sắc bén, ấm áp, không phán xét.\n- KHÔNG dùng: \"mang tính\", \"nhận biết ý kiến\", \"về việc\", \"Triết lý phương Đông gọi là...\"\n- Câu ngắn. Ý gọn. Sức nặng nằm ở sự thật, không phải ở từ hoa mỹ.\n\nNHIỆM VỤ: Chỉ xuất ra DÀN Ý. Không giải thích thêm, không bình luận ngoài lề.\n"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        -1216,
+        432
+      ],
+      "id": "59601d4a-cd6d-4979-b69b-c42ce7df9d92",
+      "name": "MINH_TRIET_LAP_DAN_Y",
+      "retryOnFail": true
+    },
+    {
+      "parameters": {
+        "model": "google/gemini-2.5-flash-lite",
+        "options": {
+          "maxTokens": 2000,
+          "temperature": 0.7
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenRouter",
+      "typeVersion": 1,
+      "position": [
+        -1216,
+        640
+      ],
+      "id": "5a6ecd3b-b90d-422c-9a0b-a3b5c95c52a0",
+      "name": "OpenRouter Chat Model",
+      "credentials": {
+        "openRouterApi": {
+          "id": "REPLACEME_CREDENTIAL_ID",
+          "name": "OpenRouter account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Gọi Wikipedia 1 lần duy nhất để tra khái niệm triết học trong dàn ý, sau đó viết kịch bản.\n\nDÀN Ý: {{ $json.output }}\n\nCHỈ TRẢ VỀ JSON SAU, KHÔNG THÊM GÌ KHÁC:\n{\n  \"scenes\": [\n    {\n      \"scene_number\": 1,\n      \"section\": \"Hook\",\n      \"voice_text\": \"Câu thoại tiếng Việt...\",\n      \"image_prompt\": \"9:16 Vertical, Minimalist black and white stick figure animation, hand-drawn thin ink lines on pure white background. The same stick figure — simple circle head, thin straight body, line arms and legs — [mô tả hành động ẩn dụ ngắn gọn]\"\n    },\n    {\n      \"scene_number\": 2,\n      \"section\": \"Main\",\n      \"voice_text\": \"...\",\n      \"image_prompt\": \"...\"\n    },\n    {\n      \"scene_number\": 3,\n      \"section\": \"Main\",\n      \"voice_text\": \"...\",\n      \"image_prompt\": \"...\"\n    },\n    {\n      \"scene_number\": 4,\n      \"section\": \"Main\",\n      \"voice_text\": \"...\",\n      \"image_prompt\": \"...\"\n    },\n    {\n      \"scene_number\": 5,\n      \"section\": \"CTA\",\n      \"voice_text\": \"...\",\n      \"image_prompt\": \"...\"\n    }\n  ]\n}\n",
+        "options": {
+          "systemMessage": "==You are \"Minh Triết\" – Triết gia kể chuyện, Visual Director & Copywriting Expert.\n\nNHÂN VẬT CỐ ĐỊNH XUYÊN SUỐT VIDEO:\nMột nhân vật người que (stick figure) duy nhất: đầu tròn đơn giản, thân mảnh, tay chân que mảnh. KHÔNG THAY ĐỔI trong bất kỳ scene nào.\n\nVOICE TEXT (Tiếng Việt):\n- Viết như người anh cả đang rỉ tai đàn em — sắc bén, ấm áp, gần gũi.\n- Câu ngắn, ý gọn, ngắt nhịp TikTok/Reels.\n- TUYỆT ĐỐI KHÔNG dùng: \"mang tính\", \"về việc\", \"Triết lý phương Đông gọi là...\"\n- Viết cho đến khi ý trọn vẹn, không đếm thời gian.\n\nIMAGE PROMPT (English Only):\n- Luôn bắt đầu: \"9:16 Vertical, Minimalist black and white stick figure animation, hand-drawn thin ink lines on pure white background. The same stick figure — simple circle head, thin straight body, line arms and legs —\"\n- Ẩn dụ triết học. KHÔNG màu sắc, KHÔNG 3D, KHÔNG photo. Tối đa 35 words mỗi prompt.\n\nTAVILY SEARCH TOOL — QUY TẮC SỬ DỤNG:\n- Gọi tool `tavily_search` ĐÚNG 1 LẦN DUY NHẤT để nghiên cứu sâu về khái niệm triết học trong dàn ý.\n- QUERY gửi cho tool phải là TIẾNG ANH (Ví dụ: \"Wu Wei meaning and practical life lessons\") để lấy dữ liệu chuẩn nhất.\n- Ưu tiên đọc nội dung trong trường \"answer\" của kết quả trả về để nắm bắt tinh hoa triết lý.\n- Chỉ sau khi có kết quả từ Tavily mới được bắt đầu viết kịch bản.\n\nGIỚI HẠN BẮT BUỘC:\n- Tối đa 5 scenes. Không hơn.\n- Mỗi image_prompt không quá 35 words.\n\nOUTPUT RULES (NGHIÊM CẤM VI PHẠM):\n- Chỉ trả về JSON object thuần túy.\n- KHÔNG dùng markdown (không có ```json).\n- KHÔNG viết bất kỳ chữ nào ngoài cặp ngoặc {}.\n- Response phải bắt đầu bằng { và kết thúc bằng }.\n"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        -912,
+        432
+      ],
+      "id": "8a1f95a9-b4c6-4c38-843f-f0606bc393ea",
+      "name": "MINH_TRIET_VIET_SCRIPT",
+      "retryOnFail": true
+    },
+    {
+      "parameters": {
+        "model": "anthropic/claude-haiku-4.5",
+        "options": {
+          "maxTokens": 6000,
+          "temperature": 0.5
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenRouter",
+      "typeVersion": 1,
+      "position": [
+        -912,
+        640
+      ],
+      "id": "82e2f028-b5a7-426b-9a2d-2b2c40f02616",
+      "name": "OpenRouter Chat Model1",
+      "credentials": {
+        "openRouterApi": {
+          "id": "REPLACEME_CREDENTIAL_ID",
+          "name": "OpenRouter account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "try {\n  let content = $input.first().json.output;\n\n  const outputTagMatch = content.match(/<output>([\\s\\S]*?)<\\/output>/);\n  if (outputTagMatch) content = outputTagMatch[1].trim();\n\n  const mdMatch = content.match(/```(?:json)?\\s*([\\s\\S]*?)\\s*```/);\n  if (mdMatch) content = mdMatch[1];\n\n  const start = content.indexOf('{');\n  const end = content.lastIndexOf('}');\n  if (start === -1 || end === -1) throw new Error('JSON bị cắt đứt - tăng maxTokens');\n\n  const parsed = JSON.parse(content.substring(start, end + 1));\n\n  if (!parsed.scenes || !Array.isArray(parsed.scenes)) {\n    throw new Error('Thiếu mảng scenes');\n  }\n\n  return parsed.scenes.map(scene => ({\n    json: {\n      ...scene,\n      voice_text: (scene.voice_text || '')\n        .replace(/\\\\n/g, ' ')\n        .replace(/\\n/g, ' ')\n        .replace(/\\r/g, '')\n        .replace(/\\t/g, ' ')\n        .replace(/\\s+/g, ' ')\n        .trim()\n    }\n  }));\n\n} catch (error) {\n  return [{ json: { has_error: true, error_message: error.message } }];\n}\n"
+      },
+      "id": "051ac160-3c45-49e2-b2af-1312c1b0132e",
+      "name": "Split Scenes",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -608,
+        432
+      ]
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "id": "8a9cebf2-ccd3-4073-a6b6-2c49a8673600",
+      "name": "Loop Scenes",
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        -368,
+        432
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "YOUR_NCA_API_BASE_URL/v1/video/concatenate",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "x-api-key",
+              "value": "YOUR_NCA_API_KEY"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "video_urls",
+              "value": "={{ $json.video_urls }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "0aef64ce-131f-4d1a-8679-ab068c77c856",
+      "name": "Concatenate Final",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        192,
+        112
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "YOUR_NCA_API_BASE_URL/audio-mixing",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "x-api-key",
+              "value": "YOUR_NCA_API_KEY"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"video_url\": \"{{ $json.response }}\",\n  \"audio_url\": \"{{ $('Get Sheet').item.json.music_url }}\",\n  \"video_vol\": 100,\n  \"audio_vol\": 15,\n  \"output_length\": \"video\"\n}",
+        "options": {
+          "timeout": 300000
+        }
+      },
+      "id": "f3f2c827-73f1-47aa-9db7-ee5e4332b7c3",
+      "name": "Add Background Music",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        464,
+        112
+      ],
+      "retryOnFail": true,
+      "maxTries": 2
+    },
+    {
+      "parameters": {
+        "url": "={{ $json.response }}",
+        "options": {
+          "response": {
+            "response": {
+              "responseFormat": "file"
+            }
+          }
+        }
+      },
+      "id": "3bf55c1b-9321-4153-9ebd-44d06aecc845",
+      "name": "Download Final Video",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        736,
+        112
+      ]
+    },
+    {
+      "parameters": {
+        "name": "={{ $('Get Sheet').item.json.title || 'podcast_final' }}.mp4",
+        "driveId": {
+          "__rl": true,
+          "value": "My Drive",
+          "mode": "list"
+        },
+        "folderId": {
+          "__rl": true,
+          "value": "YOUR_DRIVE_FOLDER_ID",
+          "mode": "id"
+        },
+        "options": {}
+      },
+      "id": "13b5f49c-3ee4-41bb-8015-46f713a5feef",
+      "name": "Upload Final Video",
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        1008,
+        112
+      ],
+      "retryOnFail": true,
+      "maxTries": 2,
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "REPLACEME_CREDENTIAL_ID",
+          "name": "A Ty Minh Triet"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentId": {
+          "__rl": true,
+          "value": "YOUR_SPREADSHEET_ID",
+          "mode": "id"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 599470117,
+          "mode": "list",
+          "cachedResultName": "video short ",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1iGdzzSDO0nV_-bC6qqzSJm6xOrDgwlib4T6Wrj64_Fo/edit#gid=599470117"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "status": "READY",
+            "row_number": 0,
+            "episode_id": "={{ $('Get Sheet').item.json.episode_id }}",
+            "output_video_url": "={{ $json.webViewLink }}"
+          },
+          "matchingColumns": [
+            "episode_id"
+          ],
+          "schema": [
+            {
+              "id": "episode_id",
+              "displayName": "episode_id",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "title",
+              "displayName": "title",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "video_loop_url",
+              "displayName": "video_loop_url",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "music_url",
+              "displayName": "music_url",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "output_video_url",
+              "displayName": "output_video_url",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "status",
+              "displayName": "status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "philosophical_concept",
+              "displayName": "philosophical_concept",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "target_pain_point",
+              "displayName": "target_pain_point",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "voice_tone_style",
+              "displayName": "voice_tone_style",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "link_audio",
+              "displayName": "link_audio",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "create_time_audio",
+              "displayName": "create_time_audio",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "link_thumbnail",
+              "displayName": "link_thumbnail",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "create_time_video",
+              "displayName": "create_time_video",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "status_tiktok",
+              "displayName": "status_tiktok",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "row_number",
+              "displayName": "row_number",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "number",
+              "canBeUsedToMatch": true,
+              "readOnly": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "id": "ea0d6904-71cc-4ce7-b772-cde25699d178",
+      "name": "Update Sheet Status",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        1216,
+        112
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "REPLACEME_CREDENTIAL_ID",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resume": "webhook",
+        "httpMethod": "POST",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "webhookId": "affda2ca-b670-421b-b223-0678d4568177",
+      "position": [
+        368,
+        448
+      ],
+      "id": "2b4b35cc-1017-4a1b-916c-e69f0f8370c9",
+      "name": "Wait for VBee"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "YOUR_NCA_API_BASE_URL/v1/media/metadata",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "x-api-key",
+              "value": "YOUR_NCA_API_KEY"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"media_url\": \"{{ $json.body?.audio_link || $json.audio_link || $json.result?.audio_link }}\"\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        688,
+        448
+      ],
+      "id": "794c0260-f375-42a5-ac2d-b5be66edebc4",
+      "name": "Get Audio Duration"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://vbee.vn/api/v1/tts",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "app_id",
+              "value": "YOUR_VBEE_APP_ID"
+            },
+            {
+              "name": "response_type",
+              "value": "indirect"
+            },
+            {
+              "name": "callback_url",
+              "value": "={{ $execution.resumeUrl }}"
+            },
+            {
+              "name": "input_text",
+              "value": "={{ $('Loop Scenes').item.json.voice_text }}"
+            },
+            {
+              "name": "voice_code",
+              "value": "s_sg_male_thientam_ytstable_vc"
+            },
+            {
+              "name": "audio_type",
+              "value": "mp3"
+            },
+            {
+              "name": "bitrate",
+              "value": "128"
+            },
+            {
+              "name": "speed_rate",
+              "value": "1.0"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        0,
+        448
+      ],
+      "id": "2a60a83e-b007-4d25-963f-704d43b6c99e",
+      "name": "VBee API - Generate Audio MP",
+      "retryOnFail": true,
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "REPLACEME_CREDENTIAL_ID",
+          "name": "vbee key"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "auth",
+              "name": "Authorization",
+              "value": "Bearer YOUR_WHISK_TOKEN",
+              "type": "string"
+            },
+            {
+              "id": "proj",
+              "name": "ProjectID",
+              "value": "YOUR_WHISK_PROJECT_ID",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1248,
+        448
+      ],
+      "id": "2b9ff2d9-0906-4d96-86cc-49db1d91a26d",
+      "name": "Whisk Config1"
+    },
+    {
+      "parameters": {
+        "name": "={{ 'scene_' + $json.scene_number + '.png' }}",
+        "driveId": {
+          "__rl": true,
+          "value": "My Drive",
+          "mode": "list"
+        },
+        "folderId": {
+          "__rl": true,
+          "value": "YOUR_DRIVE_FOLDER_ID",
+          "mode": "id"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        288,
+        736
+      ],
+      "id": "8fbe7583-ac26-484b-80e4-4586794f9e70",
+      "name": "Upload Image Drive1",
+      "retryOnFail": true,
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "REPLACEME_CREDENTIAL_ID",
+          "name": "A Ty Minh Triet"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "url",
+              "name": "image_url",
+              "value": "=https://drive.google.com/uc?export=download&confirm=t&id={{ $json.id }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        512,
+        736
+      ],
+      "id": "3a26de16-a9d3-4baa-88f6-b6b3285ac056",
+      "name": "img_url1"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "YOUR_NCA_API_BASE_URL/v1/image/convert/video",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "x-api-key",
+              "value": "YOUR_NCA_API_KEY"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"image_url\": \"{{ $json.image_url }}\",\n  \"length\": {{ $('Prep Scene Data1').item.json.audio_duration }},\n  \"frame_rate\": 30,\n  \"zoom_speed\": 3,\n  \"id\": \"scene_{{ $('Loop Scenes').item.json.scene_number }}\"\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        784,
+        736
+      ],
+      "id": "94cdc225-2747-4040-b973-377723254391",
+      "name": "NCA Zoom1",
+      "retryOnFail": true
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "YOUR_NCA_API_BASE_URL/v1/ffmpeg/compose",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "x-api-key",
+              "value": "YOUR_NCA_API_KEY"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "inputs",
+              "value": "={{ $json.inputs }}"
+            },
+            {
+              "name": "outputs",
+              "value": "={{ $json.outputs }}"
+            },
+            {
+              "name": "id",
+              "value": "={{ $json.id }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        1248,
+        736
+      ],
+      "id": "55429978-30c3-4062-b094-9223ba76a9d1",
+      "name": "NCA Compose Scene1"
+    },
+    {
+      "parameters": {
+        "toolDescription": "Dùng để tra cứu kiến thức triết học chuyên sâu, lịch sử và giải nghĩa các khái niệm Nho - Phật - Đạo. Tool trả về câu trả lời đã được tóm tắt và các nguồn uy tín.",
+        "method": "POST",
+        "url": "https://api.tavily.com/search",
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "api_key",
+              "value": "YOUR_TAVILY_API_KEY"
+            },
+            {
+              "name": "query",
+              "value": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('parameters1_Value', `Từ khóa tìm kiếm triết học bằng tiếng Anh (ví dụ: Wu Wei meaning and history)`, 'string') }}"
+            },
+            {
+              "name": "include_answer",
+              "value": "basic"
+            },
+            {
+              "name": "search_depth",
+              "value": "advanced"
+            }
+          ]
+        },
+        "options": {},
+        "optimizeResponse": true
+      },
+      "type": "n8n-nodes-base.httpRequestTool",
+      "typeVersion": 4.4,
+      "position": [
+        -736,
+        656
+      ],
+      "id": "ff6bddaf-8eaf-43bd-ba2b-da35ebb4e679",
+      "name": "tavily_search",
+      "rewireOutputLogTo": "ai_tool"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "field_image_prompt",
+              "name": "image_prompt",
+              "value": "={{ $('Loop Scenes').item.json.image_prompt.trim() }}",
+              "type": "string"
+            },
+            {
+              "id": "field_audio_link",
+              "name": "audio_link",
+              "value": "={{ ($('Wait for VBee').item.json.body?.audio_link || $('Wait for VBee').item.json.audio_link || \"\").trim() }}",
+              "type": "string"
+            },
+            {
+              "id": "field_audio_duration",
+              "name": "audio_duration",
+              "value": "={{ Math.ceil(parseFloat($('Get Audio Duration').item.json?.response?.format?.duration) || $('Get Audio Duration').item.json?.response?.duration || $('Get Audio Duration').item.json?.duration || 5) + 1 }}\n",
+              "type": "number"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "efa7593c-aefc-465c-8778-c9c0aeb7d34a",
+      "name": "Prep Scene Data1",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        992,
+        448
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://aisandbox-pa.googleapis.com/v1/whisk:generateImage",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "={{ $json.Authorization }}"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"clientContext\": {\n    \"workflowId\": \"{{ $json.ProjectID }}\",\n    \"tool\": \"BACKBONE\",\n    \"sessionId\": \"{{ new Date().getTime() }}\"\n  },\n  \"imageModelSettings\": {\n    \"imageModel\": \"GEM_PIX\",\n    \"aspectRatio\": \"IMAGE_ASPECT_RATIO_PORTRAIT\"\n  },\n  \"prompt\": \"{{ $('Prep Scene Data1').item.json.image_prompt }}\"\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1488,
+        448
+      ],
+      "id": "494bc64e-74c1-41e8-9b1d-8afe8ee2b127",
+      "name": "Whisk Scene Image1"
+    },
+    {
+      "parameters": {
+        "operation": "toBinary",
+        "sourceProperty": "imagePanels[0].generatedImages[0].encodedImage",
+        "options": {
+          "fileName": "={{ 'scene_' + $('Loop Scenes').item.json.scene_number + '.png' }}"
+        }
+      },
+      "id": "c5559441-1541-4fc1-b2e7-96746862dfd5",
+      "name": "Format Image Data1",
+      "type": "n8n-nodes-base.convertToFile",
+      "typeVersion": 1,
+      "position": [
+        64,
+        736
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "inputs_array",
+              "name": "inputs",
+              "value": "={{ [{file_url: $json.response[0]?.file_url || $json.response?.file_url || $json.response}, {file_url: $('Prep Scene Data1').item.json.audio_link}] }}",
+              "type": "array"
+            },
+            {
+              "id": "outputs_array",
+              "name": "outputs",
+              "value": "={{ [{options: [{option: \"-map\", argument: \"0:v:0\"}, {option: \"-map\", argument: \"1:a:0\"}, {option: \"-c:v\", argument: \"copy\"}, {option: \"-c:a\", argument: \"aac\"}, {option: \"-shortest\", argument: null}]}] }}",
+              "type": "array"
+            },
+            {
+              "id": "id_string",
+              "name": "id",
+              "value": "={{ 'scene_' + $('Loop Scenes').item.json.scene_number }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "a2bd5c6c-d89a-41ed-8e2e-cbf835ca8e2c",
+      "name": "Prep Compose1",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        992,
+        736
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "YOUR_NCA_API_BASE_URL/v1/video/caption",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "x-api-key",
+              "value": "YOUR_NCA_API_KEY"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"video_url\": \"{{ $json.response[0]?.file_url || $json.response?.file_url || $json.response }}\",\n  \"webhook_url\": \"{{ $execution.resumeUrl }}\",\n  \"settings\": {\n    \"style\": \"karaoke\",\n    \"line_color\": \"#FFFFFF\",\n    \"word_color\": \"#FFD700\",\n    \"outline_color\": \"#000000\",\n    \"all_caps\": false,\n    \"max_words_per_line\": 6,\n    \"position\": \"bottom_center\",\n    \"alignment\": \"center\",\n    \"font_family\": \"Roboto\",\n    \"font_size\": 28,\n    \"bold\": true,\n    \"outline_width\": 3,\n    \"shadow_offset\": 2\n  },\n  \"language\": \"vi\"\n}",
+        "options": {
+          "timeout": 300000
+        }
+      },
+      "id": "caption-scene-node-001",
+      "name": "Add Caption Scene",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        1488,
+        736
+      ],
+      "retryOnFail": true,
+      "maxTries": 2
+    },
+    {
+      "parameters": {
+        "resume": "webhook",
+        "httpMethod": "POST",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "webhookId": "custom-wait-caption-webhook-id-xyz",
+      "position": [
+        1728,
+        736
+      ],
+      "id": "wait-for-caption-node-123",
+      "name": "Wait for Caption"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "video_url_field",
+              "name": "video_url",
+              "value": "={{ (() => { let item = $('Wait for Caption').item || {}; let body = ($json && $json.body) || (item.json && item.json.body) || {}; let res = body.response || body.video_url || body.file_url; if (!res) return 'ERROR: ' + (body.message || body.error || 'Unknown Error'); if (typeof res === 'string' && res.startsWith('http')) return res; if (typeof res === 'string') { try { res = JSON.parse(res); } catch(e) {} } if (Array.isArray(res)) return res[0]?.file_url || res[0]; if (typeof res === 'object') return res.file_url || res.url || res.video_url; return res; })() }}",
+              "type": "string"
+            },
+            {
+              "id": "scene_num_field",
+              "name": "scene_number",
+              "value": "={{ $('Loop Scenes').item.json.scene_number }}",
+              "type": "number"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "ba0ccef1-d6e2-457d-a71b-b09483409856",
+      "name": "Pass to Loop1",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1968,
+        736
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "const items = $input.all();\nconst video_urls = items\n  .filter(i => i.json.video_url)\n  .map(i => ({ \n    video_url: i.json.video_url \n  })); \n\nreturn [{\n  json: {\n    video_urls,\n    scene_count: video_urls.length\n  }\n}];\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -64,
+        112
+      ],
+      "id": "76e025fc-3ce2-4ae6-80d7-6150697c6ab1",
+      "name": "Aggregate Videos"
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "minutes"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.3,
+      "position": [
+        -1696,
+        432
+      ],
+      "id": "9ab53d44-b4a4-4bc0-a452-4b5648a03f40",
+      "name": "Schedule Trigger"
+    },
+    {
+      "parameters": {
+        "content": "                              LẤY TIÊU ĐỀ VIDEO ",
+        "height": 400,
+        "width": 480
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -1792,
+        368
+      ],
+      "id": "d5b2d5a0-69e2-496d-b15b-f2554aaa28aa",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "content": "                  \n            AI VIẾT KỊCH BẢN",
+        "height": 400,
+        "width": 848
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -1296,
+        368
+      ],
+      "id": "010be31b-6d33-4f9e-9165-a1a77d182ff9",
+      "name": "Sticky Note1"
+    },
+    {
+      "parameters": {
+        "content": "                       \n                                                       GỌI API TẠO AUDIO                                                  \n                                    GỌI API TẠO ẢNH → GHÉP VIDEO → CHÈN CAPTION TỪNG SCENE\n                                       GHÉP  THÀNH VIDEO  NGẮN  (ĐÃ CÓ CAPTION)",
+        "height": 608,
+        "width": 2336,
+        "color": 3
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -432,
+        368
+      ],
+      "id": "f2a0dd14-0104-420f-be98-f04390303196",
+      "name": "Sticky Note2"
+    },
+    {
+      "parameters": {
+        "content": "GHÉP CÁC VIDEO (ĐÃ CÓ CAPTION) → ADD BACKGROUND MUSIC → UP GOOGLE DRIVE / GOOGLE SHEET\n",
+        "height": 320,
+        "width": 1584,
+        "color": 6
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -144,
+        32
+      ],
+      "id": "c005130d-1cea-4d32-8138-e5ac000633bc",
+      "name": "Sticky Note3"
+    }
+  ],
+  "connections": {
+    "Get Sheet": {
+      "main": [
+        [
+          {
+            "node": "MINH_TRIET_LAP_DAN_Y",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "MINH_TRIET_LAP_DAN_Y": {
+      "main": [
+        [
+          {
+            "node": "MINH_TRIET_VIET_SCRIPT",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenRouter Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "MINH_TRIET_LAP_DAN_Y",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "MINH_TRIET_VIET_SCRIPT": {
+      "main": [
+        [
+          {
+            "node": "Split Scenes",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenRouter Chat Model1": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "MINH_TRIET_VIET_SCRIPT",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Split Scenes": {
+      "main": [
+        [
+          {
+            "node": "Loop Scenes",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop Scenes": {
+      "main": [
+        [
+          {
+            "node": "Aggregate Videos",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "VBee API - Generate Audio MP",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Concatenate Final": {
+      "main": [
+        [
+          {
+            "node": "Add Background Music",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Add Background Music": {
+      "main": [
+        [
+          {
+            "node": "Download Final Video",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Download Final Video": {
+      "main": [
+        [
+          {
+            "node": "Upload Final Video",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Upload Final Video": {
+      "main": [
+        [
+          {
+            "node": "Update Sheet Status",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait for VBee": {
+      "main": [
+        [
+          {
+            "node": "Get Audio Duration",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Audio Duration": {
+      "main": [
+        [
+          {
+            "node": "Prep Scene Data1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "VBee API - Generate Audio MP": {
+      "main": [
+        [
+          {
+            "node": "Wait for VBee",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Whisk Config1": {
+      "main": [
+        [
+          {
+            "node": "Whisk Scene Image1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Upload Image Drive1": {
+      "main": [
+        [
+          {
+            "node": "img_url1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "img_url1": {
+      "main": [
+        [
+          {
+            "node": "NCA Zoom1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "NCA Zoom1": {
+      "main": [
+        [
+          {
+            "node": "Prep Compose1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "NCA Compose Scene1": {
+      "main": [
+        [
+          {
+            "node": "Add Caption Scene",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Add Caption Scene": {
+      "main": [
+        [
+          {
+            "node": "Wait for Caption",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait for Caption": {
+      "main": [
+        [
+          {
+            "node": "Pass to Loop1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "tavily_search": {
+      "ai_tool": [
+        [
+          {
+            "node": "MINH_TRIET_VIET_SCRIPT",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Prep Scene Data1": {
+      "main": [
+        [
+          {
+            "node": "Whisk Config1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Whisk Scene Image1": {
+      "main": [
+        [
+          {
+            "node": "Format Image Data1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Format Image Data1": {
+      "main": [
+        [
+          {
+            "node": "Upload Image Drive1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Prep Compose1": {
+      "main": [
+        [
+          {
+            "node": "NCA Compose Scene1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Pass to Loop1": {
+      "main": [
+        [
+          {
+            "node": "Loop Scenes",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Aggregate Videos": {
+      "main": [
+        [
+          {
+            "node": "Concatenate Final",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "Get Sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Manual Trigger": {
+      "main": [
+        [
+          {
+            "node": "Get Sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "pinData": {},
+  "meta": {
+    "instanceId": "0f847b3d569aeb61da97c32da1e7a9264829c2900a21c6ce1a887a99c6eb942e"
+  }
+}
